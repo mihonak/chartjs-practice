@@ -45,22 +45,22 @@ const config = {
   type: 'bar',
   data: data,
   options: {
+    scales: {
+      xAxes: [{
+        stacked: true
+      }],
+      yAxes: [{
+        stacked: true,
+        beginAtZero: true
+      }]
+    },
     plugins: {
       title: {
         display: true,
         text: '２つの値の積み上げ棒グラフ'
       }
     },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true
-      },
-      y: {
-        stacked: true,
-        beginAtZero: true
-      }
-    }
+    responsive: true
   }
 };
 new Chart(ctx, config);
