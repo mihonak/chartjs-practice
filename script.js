@@ -12,7 +12,7 @@ const data = {
       label: '値2',
       data: [60, 60, 70, 70, 70, 70, 70, 70, 70, 70, 70],
       backgroundColor: function(ctx) {
-        // 高解像度パターン: 32x32で作成し、16x16に縮小して利用
+        // 高解像度パターン: 32x32で作成し、縮小して利用
         const chart = ctx.chart;
         const {ctx: canvasCtx} = chart;
         const w = 32, h = 32;
@@ -31,10 +31,10 @@ const data = {
         pctx.stroke();
         // 縮小用パターン
         const smallCanvas = document.createElement('canvas');
-        smallCanvas.width = 8;
-        smallCanvas.height = 8;
+        smallCanvas.width = 4;
+        smallCanvas.height = 4;
         const sctx = smallCanvas.getContext('2d');
-        sctx.drawImage(patternCanvas, 0, 0, 32, 32, 0, 0, 8, 8);
+        sctx.drawImage(patternCanvas, 0, 0, w, h, 0, 0, smallCanvas.width, smallCanvas.height);
         window._stripePatternCanvas = smallCanvas;
         return canvasCtx.createPattern(smallCanvas, 'repeat');
       }
@@ -47,11 +47,18 @@ const config = {
   options: {
     scales: {
       xAxes: [{
-        stacked: true
+        stacked: true,
+        barThickness: 12,
+        gridLines: {
+          display: false
+        }
       }],
       yAxes: [{
         stacked: true,
-        beginAtZero: true
+        beginAtZero: true,
+        ticks: {
+          stepSize: 50
+        }
       }]
     },
     plugins: {
