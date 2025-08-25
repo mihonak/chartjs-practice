@@ -1,5 +1,4 @@
-// Chart.jsのグラフ描画
-const ctx = document.getElementById('stackedBarChart').getContext('2d');
+// 棒グラフ
 const data = {
   labels: [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
   datasets: [
@@ -74,9 +73,10 @@ const config = {
     responsive: true
   }
 };
-new Chart(ctx, config);
+const barCtx = document.getElementById('stackedBarChart').getContext('2d');
+new Chart(barCtx, config);
 
-// 折れ線積み上げグラフ用データ
+// 折れ線グラフ
 const lineData = {
   labels: [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
   datasets: [
@@ -165,11 +165,8 @@ const lineConfig = {
     responsive: true
   }
 };
-// 新しいcanvasを追加
-const lineCanvas = document.createElement('canvas');
-lineCanvas.id = 'stackedLineChart';
-document.getElementById('chart-container').appendChild(lineCanvas);
-const lineChart = new Chart(lineCanvas.getContext('2d'), lineConfig);
+const lineCtx = document.getElementById('stackedLineChart').getContext('2d');
+new Chart(lineCtx, lineConfig);
 
 // 両端に三角形を描画（afterDrawのみでOKなので、addEventListener部分は削除）
 Chart.plugins.register({
