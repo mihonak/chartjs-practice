@@ -1,3 +1,26 @@
+// ストライプパターン生成関数
+function createStripePattern(ctx, color = 'dodgerblue', stripeColor = 'white') {
+  const w = 32, h = 32, sw = 4, sh = 4;
+  const patternCanvas = document.createElement('canvas');
+  patternCanvas.width = w;
+  patternCanvas.height = h;
+  const pctx = patternCanvas.getContext('2d');
+  pctx.fillStyle = color;
+  pctx.fillRect(0, 0, w, h);
+  pctx.strokeStyle = stripeColor;
+  pctx.lineWidth = 2;
+  pctx.beginPath();
+  pctx.moveTo(0, h);
+  pctx.lineTo(w, 0);
+  pctx.stroke();
+  const smallCanvas = document.createElement('canvas');
+  smallCanvas.width = sw;
+  smallCanvas.height = sh;
+  const sctx = smallCanvas.getContext('2d');
+  sctx.drawImage(patternCanvas, 0, 0, w, h, 0, 0, sw, sh);
+  return ctx.createPattern(smallCanvas, 'repeat');
+}
+
 // 棒グラフ
 const data = {
   labels: [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
@@ -13,31 +36,9 @@ const data = {
       label: '値2',
       data: [60, 60, 70, 70, 70, 70, 70, 70, 70, 70, 70],
       backgroundColor: function(ctx) {
-        // 高解像度パターン: 32x32で作成し、縮小して利用
         const chart = ctx.chart;
         const {ctx: canvasCtx} = chart;
-        const w = 32, h = 32;
-        // 元パターン作成
-        const patternCanvas = document.createElement('canvas');
-        patternCanvas.width = w;
-        patternCanvas.height = h;
-        const pctx = patternCanvas.getContext('2d');
-        pctx.fillStyle = 'dodgerblue';
-        pctx.fillRect(0, 0, w, h);
-        pctx.strokeStyle = 'white';
-        pctx.lineWidth = 2;
-        pctx.beginPath();
-        pctx.moveTo(0, h);
-        pctx.lineTo(w, 0);
-        pctx.stroke();
-        // 縮小用パターン
-        const smallCanvas = document.createElement('canvas');
-        smallCanvas.width = 4;
-        smallCanvas.height = 4;
-        const sctx = smallCanvas.getContext('2d');
-        sctx.drawImage(patternCanvas, 0, 0, w, h, 0, 0, smallCanvas.width, smallCanvas.height);
-        window._stripePatternCanvas = smallCanvas;
-        return canvasCtx.createPattern(smallCanvas, 'repeat');
+        return createStripePattern(canvasCtx, 'dodgerblue', 'white');
       },
       borderColor: 'white',
       borderWidth: 1
@@ -94,28 +95,9 @@ const lineData = {
       data: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
       borderColor: 'white',
       backgroundColor: function(ctx) {
-        // 棒グラフと同じパターン塗りつぶし
         const chart = ctx.chart;
         const {ctx: canvasCtx} = chart;
-        const w = 32, h = 32;
-        const patternCanvas = document.createElement('canvas');
-        patternCanvas.width = w;
-        patternCanvas.height = h;
-        const pctx = patternCanvas.getContext('2d');
-        pctx.fillStyle = 'dodgerblue';
-        pctx.fillRect(0, 0, w, h);
-        pctx.strokeStyle = 'white';
-        pctx.lineWidth = 2;
-        pctx.beginPath();
-        pctx.moveTo(0, h);
-        pctx.lineTo(w, 0);
-        pctx.stroke();
-        const smallCanvas = document.createElement('canvas');
-        smallCanvas.width = 4;
-        smallCanvas.height = 4;
-        const sctx = smallCanvas.getContext('2d');
-        sctx.drawImage(patternCanvas, 0, 0, w, h, 0, 0, smallCanvas.width, smallCanvas.height);
-        return canvasCtx.createPattern(smallCanvas, 'repeat');
+        return createStripePattern(canvasCtx, 'dodgerblue', 'white');
       },
       fill: true,
       pointRadius: 0
