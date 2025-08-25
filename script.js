@@ -193,21 +193,28 @@ Chart.plugins.register({
     const area = chart.chartArea;
     if (!area) return;
     ctx.save();
-    ctx.fillStyle = 'seagreen'; // 緑色に変更
-    // 左端
+    ctx.fillStyle = 'seagreen'; // 三角形の色
+    // 左端三角
     ctx.beginPath();
     ctx.moveTo(area.left - 10, area.bottom);
     ctx.lineTo(area.left, area.bottom - 6);
     ctx.lineTo(area.left, area.bottom + 6);
     ctx.closePath();
     ctx.fill();
-    // 右端
+    // 右端三角
     ctx.beginPath();
     ctx.moveTo(area.right + 10, area.bottom);
     ctx.lineTo(area.right, area.bottom - 6);
     ctx.lineTo(area.right, area.bottom + 6);
     ctx.closePath();
     ctx.fill();
+    // 三角形を結ぶ直線
+    ctx.strokeStyle = 'seagreen';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(area.left, area.bottom);
+    ctx.lineTo(area.right, area.bottom);
+    ctx.stroke();
     ctx.restore();
   }
 });
