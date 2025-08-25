@@ -81,8 +81,8 @@ const lineData = {
   labels: [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
   datasets: [
     {
-      label: '値1（折れ線）',
-      data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+      label: '値1',
+      data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
       borderColor: 'white',
       borderWidth: 1,
       backgroundColor: 'orange',
@@ -90,8 +90,8 @@ const lineData = {
       pointRadius: 0
     },
     {
-      label: '値2（折れ線）',
-      data: [60, 60, 70, 70, 70, 70, 70, 70, 70, 70, 70],
+      label: '値2',
+      data: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
       borderColor: 'white',
       backgroundColor: function(ctx) {
         // 棒グラフと同じパターン塗りつぶし
@@ -111,10 +111,10 @@ const lineData = {
         pctx.lineTo(w, 0);
         pctx.stroke();
         const smallCanvas = document.createElement('canvas');
-        smallCanvas.width = 8;
-        smallCanvas.height = 8;
+        smallCanvas.width = 4;
+        smallCanvas.height = 4;
         const sctx = smallCanvas.getContext('2d');
-        sctx.drawImage(patternCanvas, 0, 0, 32, 32, 0, 0, 8, 8);
+        sctx.drawImage(patternCanvas, 0, 0, w, h, 0, 0, smallCanvas.width, smallCanvas.height);
         return canvasCtx.createPattern(smallCanvas, 'repeat');
       },
       fill: true,
@@ -152,7 +152,7 @@ const lineConfig = {
           display: false
         },
         ticks: {
-          stepSize: 50
+          display: false
         }
       }]
     },
