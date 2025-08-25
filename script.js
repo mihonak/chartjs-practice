@@ -162,30 +162,7 @@ lineCanvas.id = 'stackedLineChart';
 document.getElementById('chart-container').appendChild(lineCanvas);
 const lineChart = new Chart(lineCanvas.getContext('2d'), lineConfig);
 
-// 両端に三角形を描画
-lineCanvas.addEventListener('draw', function() {
-  const ctx = lineCanvas.getContext('2d');
-  const chartArea = lineChart.chartArea;
-  if (!chartArea) return;
-  ctx.save();
-  ctx.fillStyle = 'white';
-  // 左端
-  ctx.beginPath();
-  ctx.moveTo(chartArea.left - 10, chartArea.bottom);
-  ctx.lineTo(chartArea.left, chartArea.bottom - 6);
-  ctx.lineTo(chartArea.left, chartArea.bottom + 6);
-  ctx.closePath();
-  ctx.fill();
-  // 右端
-  ctx.beginPath();
-  ctx.moveTo(chartArea.right + 10, chartArea.bottom);
-  ctx.lineTo(chartArea.right, chartArea.bottom - 6);
-  ctx.lineTo(chartArea.right, chartArea.bottom + 6);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
-});
-// Chart.js v2系はdrawイベントがないので、afterDrawフックを使う
+// 両端に三角形を描画（afterDrawのみでOKなので、addEventListener部分は削除）
 Chart.plugins.register({
   afterDraw: function(chart) {
     if (chart.config.type !== 'line') return;
