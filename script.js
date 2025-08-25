@@ -83,16 +83,16 @@ const lineData = {
     {
       label: '値1（折れ線）',
       data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
-      borderColor: 'white', // 線の色を白
+      borderColor: 'white',
       borderWidth: 1,
-      backgroundColor: 'seagreen', // 棒グラフと同じ色
+      backgroundColor: 'orange',
       fill: true,
-      pointRadius: 0 // ポイント無し
+      pointRadius: 0
     },
     {
       label: '値2（折れ線）',
       data: [60, 60, 70, 70, 70, 70, 70, 70, 70, 70, 70],
-      borderColor: 'white', // 線の色を白
+      borderColor: 'white',
       backgroundColor: function(ctx) {
         // 棒グラフと同じパターン塗りつぶし
         const chart = ctx.chart;
@@ -118,7 +118,7 @@ const lineData = {
         return canvasCtx.createPattern(smallCanvas, 'repeat');
       },
       fill: true,
-      pointRadius: 0 // ポイント無し
+      pointRadius: 0
     }
   ]
 };
@@ -131,11 +131,17 @@ const lineConfig = {
         stacked: true,
         gridLines: {
           display: false
+        },
+        ticks: {
+          fontColor: 'seagreen' // x軸ラベルの色もseagreenに
         }
       }],
       yAxes: [{
         stacked: true,
         beginAtZero: true,
+        gridLines: {
+          display: false
+        },
         ticks: {
           stepSize: 50
         }
@@ -154,4 +160,54 @@ const lineConfig = {
 const lineCanvas = document.createElement('canvas');
 lineCanvas.id = 'stackedLineChart';
 document.getElementById('chart-container').appendChild(lineCanvas);
-new Chart(lineCanvas.getContext('2d'), lineConfig);
+const lineChart = new Chart(lineCanvas.getContext('2d'), lineConfig);
+
+// 両端に三角形を描画
+lineCanvas.addEventListener('draw', function() {
+  const ctx = lineCanvas.getContext('2d');
+  const chartArea = lineChart.chartArea;
+  if (!chartArea) return;
+  ctx.save();
+  ctx.fillStyle = 'white';
+  // 左端
+  ctx.beginPath();
+  ctx.moveTo(chartArea.left - 10, chartArea.bottom);
+  ctx.lineTo(chartArea.left, chartArea.bottom - 6);
+  ctx.lineTo(chartArea.left, chartArea.bottom + 6);
+  ctx.closePath();
+  ctx.fill();
+  // 右端
+  ctx.beginPath();
+  ctx.moveTo(chartArea.right + 10, chartArea.bottom);
+  ctx.lineTo(chartArea.right, chartArea.bottom - 6);
+  ctx.lineTo(chartArea.right, chartArea.bottom + 6);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+});
+// Chart.js v2系はdrawイベントがないので、afterDrawフックを使う
+Chart.plugins.register({
+  afterDraw: function(chart) {
+    if (chart.config.type !== 'line') return;
+    const ctx = chart.chart.ctx;
+    const area = chart.chartArea;
+    if (!area) return;
+    ctx.save();
+    ctx.fillStyle = 'seagreen'; // 緑色に変更
+    // 左端
+    ctx.beginPath();
+    ctx.moveTo(area.left - 10, area.bottom);
+    ctx.lineTo(area.left, area.bottom - 6);
+    ctx.lineTo(area.left, area.bottom + 6);
+    ctx.closePath();
+    ctx.fill();
+    // 右端
+    ctx.beginPath();
+    ctx.moveTo(area.right + 10, area.bottom);
+    ctx.lineTo(area.right, area.bottom - 6);
+    ctx.lineTo(area.right, area.bottom + 6);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+});
