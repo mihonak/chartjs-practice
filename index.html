@@ -5,8 +5,9 @@
   <title>Chart.js 積み上げ棒グラフサンプル</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
   <style>
-    body { font-family: Arial, sans-serif;}
+    body { font-family: Arial, sans-serif; color: #666;}
     .chart-container { width: 300px; margin: 40px auto; }
+    .legend2 { width: 16px; height: 16px; display: inline-block; vertical-align: text-top; }
   </style>
 </head>
 <body>
@@ -15,6 +16,10 @@
   </div>
   <div class="chart-container" style="width: 200px;">
     <canvas id="stackedLineChart"></canvas>
+    <div>
+        <canvas class="legend2"></canvas>
+        値2 
+    </div>
   </div>
   <script src="script.js"></script>
 </body>

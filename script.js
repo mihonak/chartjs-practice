@@ -144,6 +144,9 @@ const lineConfig = {
         text: '２つの値の積み上げ折れ線グラフ'
       }
     },
+    legend: {
+      display: false
+    },
     responsive: true
   }
 };
@@ -187,5 +190,21 @@ Chart.plugins.register({
     ctx.textBaseline = 'top';
     ctx.fillText('年齢', (area.left + area.right) / 2, area.bottom + 12);
     ctx.restore();
+  }
+});
+
+// .legend2にストライプパターンをDPI対応で適用
+window.addEventListener('DOMContentLoaded', function() {
+  const legendCanvas = document.querySelector('.legend2');
+  if (legendCanvas) {
+    const dpr = window.devicePixelRatio || 1;
+    const cssWidth = legendCanvas.offsetWidth;
+    const cssHeight = legendCanvas.offsetHeight;
+    legendCanvas.width = cssWidth * dpr;
+    legendCanvas.height = cssHeight * dpr;
+    const ctx = legendCanvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = createStripePattern(ctx, 'dodgerblue', 'white');
+    ctx.fillRect(0, 0, cssWidth, cssHeight);
   }
 });
