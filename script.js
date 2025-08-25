@@ -173,24 +173,24 @@ Chart.plugins.register({
     ctx.fillStyle = 'seagreen'; // 三角形の色
     // 左端三角
     ctx.beginPath();
-    ctx.moveTo(area.left - 10, area.bottom);
-    ctx.lineTo(area.left, area.bottom - 6);
-    ctx.lineTo(area.left, area.bottom + 6);
+    ctx.moveTo(area.left, area.bottom);
+    ctx.lineTo(area.left + 10, area.bottom - 6);
+    ctx.lineTo(area.left + 10, area.bottom + 6);
     ctx.closePath();
     ctx.fill();
     // 右端三角
     ctx.beginPath();
-    ctx.moveTo(area.right + 10, area.bottom);
-    ctx.lineTo(area.right, area.bottom - 6);
-    ctx.lineTo(area.right, area.bottom + 6);
+    ctx.moveTo(area.right, area.bottom);
+    ctx.lineTo(area.right - 10, area.bottom - 6);
+    ctx.lineTo(area.right - 10, area.bottom + 6);
     ctx.closePath();
     ctx.fill();
     // 三角形を結ぶ直線
     ctx.strokeStyle = 'seagreen';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(area.left, area.bottom);
-    ctx.lineTo(area.right, area.bottom);
+    ctx.moveTo(area.left + 10, area.bottom);
+    ctx.lineTo(area.right - 10, area.bottom);
     ctx.stroke();
     ctx.restore();
   }
