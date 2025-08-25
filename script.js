@@ -133,7 +133,16 @@ const lineConfig = {
           display: false
         },
         ticks: {
-          fontColor: 'seagreen' // x軸ラベルの色もseagreenに
+          fontColor: 'seagreen',
+          callback: function(value, index, values) {
+            // 最小値と最大値のみ表示
+            if (index === 0 || index === values.length - 1) {
+              return value + '歳';
+            }
+            return '';
+          },
+          maxRotation: 0,
+          minRotation: 0
         }
       }],
       yAxes: [{
@@ -192,6 +201,12 @@ Chart.plugins.register({
     ctx.moveTo(area.left + 10, area.bottom);
     ctx.lineTo(area.right - 10, area.bottom);
     ctx.stroke();
+    // 下中央に「年齢」
+    ctx.font = '12px Arial';
+    ctx.fillStyle = 'gray';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText('年齢', (area.left + area.right) / 2, area.bottom + 12);
     ctx.restore();
   }
 });
